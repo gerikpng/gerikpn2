@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> PHP CRUD with Bootstrap Modal </title>
+     <!-- Bootstrap CSS CDN -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+<!-- Font Awesome JS -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script><link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css'><link rel="stylesheet" href="./loged/style.css">
+
+
+    <script src="./js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="./js/script.js" type="text/javascript"></script>
+    <script src="./js/cadCli.js" type="text/javascript"></script>
+</head>
+
+
+<body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="studentaddmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Adicionar novo cliente </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label> First Name </label>
+                            <input type="text" name="cname" id="cname" class="form-control" placeholder="Enter First Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Last Name </label>
+                            <input type="text" name="ccontact" id="ccontact" class="form-control" placeholder="Enter Last Name">
+                        </div>
+                        <div class="form-group">
+                        <?php
+              
+              $selectCat = "SELECT * FROM tb_categoria where emp_id = ".$_SESSION['emp_id'];
+              $Conexao->conectar();
+              $result_categorias = $Conexao->PesquisarSQL($selectCat);
+              $Conexao->desconectar();
+              $quantidadeCat = mysqli_num_rows($result_categorias);
+              if ($quantidadeCat > 0) {
+                echo " <label id='categoriaaa'><div class='element' id='CHECKEDS'>";
+
+                while ($linhaCat = $result_categorias->fetch_assoc()) {
+                  
+
+
+                  echo "<input type='checkbox' name='prolangr' value='".$linhaCat['cat_id']."'> ".$linhaCat['cat_nome']." <br />";
+                }
+                echo "</div></label>";
+              } else {
+                echo "Nenhum dado encontrado";
+              } ?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" name="insertdata" id="createcli" class="btn btn-primary">Save Data</button>
+                    </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT POP UP FORM (Bootstrap MODAL) -->
+    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Edit Student Data </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                    <div class="modal-body">
+
+                        <input type="hidden" name="update_id" id="update_id">
+
+                        <div class="form-group">
+                            <label> Nome </label>
+                            <input type="text" name="fname" id="fname" class="form-control" placeholder="Enter First Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Contato </label>
+                            <input type="text" name="lcontact" id="lcontact" class="form-control" placeholder="Enter Last Name">
+                        </div>
+
+                        <div class="form-group">
+                              
+
+                           <!-- <input type="text" name="course" id="course" class="form-control" placeholder="Enter Course">-->
+                           
+                      <?php
+              
+              $selectCat = "SELECT * FROM tb_categoria where emp_id = ".$_SESSION['emp_id'];
+              $Conexao->conectar();
+              $result_categorias = $Conexao->PesquisarSQL($selectCat);
+              $Conexao->desconectar();
+              $quantidadeCat = mysqli_num_rows($result_categorias);
+              if ($quantidadeCat > 0) {
+                echo " <label id='categoriaaa'><div class='element' id='CHECKEDS'>";
+
+                while ($linhaCat = $result_categorias->fetch_assoc()) {
+                  
+
+
+                  echo "<input type='checkbox' name='prolang' id='CHECK".$linhaCat['cat_id']."' value='".$linhaCat['cat_id']."'> ".$linhaCat['cat_nome']." <br />";
+                }
+                echo "</div></label>";
+              } else {
+                echo "Nenhum dado encontrado";
+              } ?>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="CLOSEedit" data-dismiss="modal">Close</button>
+                        <button type="submit" name="updatedata" id="submitEdit" class="btn btn-primary">Update Data</button>
+                    </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE POP UP FORM (Bootstrap MODAL) -->
+    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Delete Student Data </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="../../../Controller/C_delcliente.php" method="POST">
+
+                    <div class="modal-body">
+                        
+                        <input type="hidden" name="delete_id" id="delete_id">
+
+                        <h4> Do you want to Delete this Data ??</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> NO </button>
+                        <button type="submit" id="DELETEYES" name="deletedata" class="btn btn-primary"> Yes !! Delete it. </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <img class="image-loged" src="../../assets/app/LOGO.png">
+            </div>
+
+            <ul class="list-unstyled components">
+                <a class="link-sidebar" href="#">Home</a>
+                <a class="link-sidebar" href="#">Dashboard</a>
+                <a class="link-sidebar" href="#">Caixa de Entrada</a>
+                <a class="link-sidebar" href="#">Produtos</a>
+                <a class="link-sidebar" href="./cadcategoria.php">Cadastro de Categorias</a>
+                <a class="link-sidebar" href="./cadcliente.php">Cadastro de Clientes</a>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                
+                <li>
+                    <a href="../../../Controller/C_logout.php" class="article">Logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+        <div class="container">
+        <div class="">
+            
+            <div class="">
+                <div class="">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentaddmodal">
+                        ADD DATA
+                    </button>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="">
+
+
+                    <table id="datatableid" class="">
+                        <thead>
+                            <tr>
+                                <th scope="col"> ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Contato </th>
+                                <th scope="col"> Categorias </th>
+                                <th scope="col"> EDIT </th>
+                                <th scope="col"> DELETE </th>
+                            </tr>
+                        </thead>
+                        <?php
+                        if ($result_login) {
+                            foreach ($result_login as $row) {
+                        ?>
+                                <tbody>
+                                    <tr>
+                                        <td> <?php echo $row['cli_id']; ?> </td>
+                                        <td> <?php echo $row['cli_nome']; ?> </td>
+                                        <td> <?php echo $row['cli_contato']; ?> </td>
+                                        <td hidden> <?php echo $row['cat_id']; ?> </td>
+                                        <td> <?php echo $row['cat_nome']; ?> </td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-success editbtn"> EDIT </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger deletebtn"> DELETE </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                        <?php
+                            }
+                        } else {
+                            echo "No Record Found";
+                        }
+                        ?>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+                    </div>
+            
+
+             
+        </div>
+    </div>
+
+    
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <!--
+        TESTE CLASSE VIEW BTN NÃO UTILIZADA
+    <script>
+        $(document).ready(function () {
+
+            $('.viewbtn').on('click', function () {
+                $('#viewmodal').modal('show');
+                $.ajax({ //create an ajax request to display.php
+                    type: "GET",
+                    url: "display.php",
+                    dataType: "html", //expect html to be returned                
+                    success: function (response) {
+                        $("#responsecontainer").html(response);
+                        //alert(response);
+                    }
+                });
+            });
+
+        });
+    </script>
+    -->
+
+
+
+    <script>
+        $(document).ready(function() {
+
+            $('.deletebtn').on('click', function() {
+
+                $('#deletemodal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function() {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#delete_id').val(data[0]);
+
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            // submit button click
+            $("#DELETEYES").click(function() {
+
+                var name = $("#delete_id").val();
+
+
+                if (name != '') {
+                    $.ajax({
+                        url: '../../../Controller/C_delcliente.php',
+                        type: 'post',
+                        data: {
+                            id: name
+                        },
+                        dataType: 'JSON',
+                        success: function(response) {
+
+                            /* $('.details').show();
+
+                             // selecting values from response Object
+                             var name = response.name;
+                             var email = response.email;
+                             var lang = response.lang;
+                             var foundjquery = response.foundjquery;
+
+                             // setting values
+                             $('#name').text(name);
+                             $('#email').text(email);
+                             $('#lang').text(lang);
+                             $('#foundjquery').text(foundjquery);*/
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('.editbtn').on('click', function() {
+
+                $('#editmodal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function() {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#update_id').val(data[0].replace(/\s/g, ""));
+                $('#fname').val(data[1].replace(/\s/g, ""));
+                $('#lcontact').val(data[2].replace(/\s/g, ""));
+               // $('#category').val(data[3]);
+               const dataa = data[3];
+                var strs = dataa.split(/[\s,]+/).filter(Boolean);
+
+//var strs = ['abc', 'def', 'ghi', 'jkl', 'mno'];
+              //    var value = '10';
+               // if(strs.find((str) => str === value)){ }
+                strs.forEach(function(number) {
+                    const nameCheck = "CHECK"+number.toString();
+                    document.getElementById(nameCheck).checked = true;
+                    console.log(nameCheck);
+                });
+
+
+                console.log(strs);
+
+
+
+
+
+
+
+                
+            });
+            
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#CLOSEedit').on('click', function() {
+
+               
+                $( "#CHECKEDS input[type='checkbox']" ).prop( "checked", false );
+
+                 
+            });
+            
+        });
+    </script>
+    
+    
+
+
+</body>
+
+</html>

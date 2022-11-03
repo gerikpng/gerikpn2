@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/bootstrap-4.3.1.css">
+  <link rel="stylesheet" href="../css/styleLOGIN.css">
+</head>
+
+<body>
+  
+  <div class="py-5 text-center text-black-login h-100 align-items-center d-flex" style="	background-image: url(../assets/app/cover3.jpg);	background-position: center center;	background-size: cover;	background-repeat: repeat;">
+  <div style="position: ABSOLUTE;
+top: 2%; left: 2%;">
+  <a href="index.html" class="retlogin">< Voltar Para início</a>
+  </div>
+  <!--<div class="row loginlogo">
+  <img class="logo_login" src="../assets/app/logo2.png">
+  </div>-->
+    <div class="row row-login">
+      <div class="col-md-12">
+        <div class="container cont-login">
+          <input class="input-login" type="radio" name="tab" id="signin" checked="checked" />
+          <input class="input-login" type="radio" name="tab" id="register" />
+          <div class="tabs">
+            <label class="tab" for="signin">
+              <div class="text">login</div>
+            </label>
+            <label class="tab" for="register">
+              <div class="text">sign up</div>
+            </label>
+          </div>
+          <div class="pages">
+            <div class="page">
+              <form method="POST" action="./browse/index.html">
+                <div class="input">
+
+                  <input class="text input-login" name="usu_name" type="email" placeholder="email" required/>
+                </div>
+                <div class="input">
+
+                  <input class="text input-login" name="usu_password" type="password" placeholder="senha" required/>
+                </div>
+                <div class="input input-enter">
+                  <input type="submit" class="input-enter" value="ENTRAR" />
+                </div>
+              </form>
+            </div>
+            <div class="page signup">
+              <div class="input">
+
+                <input class="text" type="text" placeholder="email" />
+              </div>
+              <div class="input">
+
+                <input class="text" type="password" placeholder="senha" />
+              </div>
+              <div class="input">
+
+                <input class="text" type="password" placeholder="confirmar senha" />
+              </div>
+              <div class="input">
+                <input type="submit" value="CADASTRAR" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script src="../js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="../js/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="../js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="../js/scriptLOGIN.js"></script>
+</body>
+
+</html>
